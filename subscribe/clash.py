@@ -677,7 +677,7 @@ def check(proxy: dict, api_url: str, timeout: int, test_url: str, delay: int, st
     try:
         proxy_name = urllib.parse.quote(proxy.get("name", ""), safe="")
     except:
-        logger.debug(f"encoding proxy name error, proxy: {proxy.get("name", "")}")
+        logger.debug(f"encoding proxy name error, proxy: {proxy.get('name', '')}")
         return False
 
     base_url = f"http://{api_url}/proxies/{proxy_name}/delay?timeout={str(timeout)}&url="
