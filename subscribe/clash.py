@@ -33,14 +33,11 @@ DOWNLOAD_URL = [
 
 EXTERNAL_CONTROLLER = "127.0.0.1:9090"
 
-
 class QuotedStr(str):
     pass
 
-
 def quoted_scalar(dumper, data):
     return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
-
 
 def generate_config(path: str, proxies: list, filename: str) -> list:
     os.makedirs(path, exist_ok=True)
@@ -61,7 +58,6 @@ def generate_config(path: str, proxies: list, filename: str) -> list:
         yaml.dump(config, f, allow_unicode=True)
 
     return config.get("proxies", [])
-
 
 def filter_proxies(proxies: list) -> dict:
     config = {
@@ -132,7 +128,6 @@ def filter_proxies(proxies: list) -> dict:
 
     return config
 
-
 def proxies_exists(proxy: dict, hosts: dict) -> bool:
     if not proxy:
         return True
@@ -172,7 +167,6 @@ def proxies_exists(proxy: dict, hosts: dict) -> bool:
                 return True
 
     return False
-
 
 COMMON_SS_SUPPORTED_CIPHERS = [
     "aes-128-gcm",
@@ -249,7 +243,6 @@ SPECIAL_PROTOCOLS = set(["vless", "tuic", "hysteria", "hysteria2", "anytls"])
 # xtls-rprx-direct and xtls-rprx-origin are deprecated and no longer supported
 # XTLS_FLOWS = set(["xtls-rprx-direct", "xtls-rprx-origin", "xtls-rprx-vision"])
 
-
 def is_hex(word: str) -> bool:
     digits = set("0123456789abcdef")
     word = word.lower().strip()
@@ -258,7 +251,6 @@ def is_hex(word: str) -> bool:
             return False
 
     return True
-
 
 def check_ports(port: str, ranges: str, protocol: str) -> bool:
     protocol = utils.trim(protocol).lower()
@@ -287,7 +279,6 @@ def check_ports(port: str, ranges: str, protocol: str) -> bool:
             return False
 
     return True
-
 
 def verify(item: dict, mihomo: bool = True) -> bool:
     if not item or type(item) != dict or "type" not in item:
@@ -671,7 +662,6 @@ def verify(item: dict, mihomo: bool = True) -> bool:
     except:
         return False
 
-
 def check(proxy: dict, api_url: str, timeout: int, test_url: str, delay: int, strict: bool = False) -> bool:
     proxy_name = ""
     try:
@@ -730,14 +720,13 @@ def check(proxy: dict, api_url: str, timeout: int, test_url: str, delay: int, st
                         data = json.loads(content)
                         if data.get("delay", -1) > 0:
                             proxy["name"] = f"{proxy_name}{utils.CHATGPT_FLAG}"
-                except Exception:
-                    logger.debug(f"check for OpenAI failed, proxy: {proxy.get("name")}, message: {str(e)}")
+                except Exception as e:
+                    logger.debug(f"check for OpenAI failed, proxy: {proxy.get('name')}, message: {str(e)}")
 
         return alive
     except Exception as e:
-        logger.debug(f"check failed, proxy: {proxy.get("name")}, message: {str(e)}")
+        logger.debug(f"check failed, proxy: {proxy.get('name')}, message: {str(e)}")
         return False
-
 
 def is_mihomo() -> bool:
     base = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
@@ -750,7 +739,6 @@ def is_mihomo() -> bool:
         return re.search("Mihomo Meta", output, flags=re.I) is not None
     except:
         return False
-
 
 def wrap(text: str) -> str:
     if utils.is_number(text):
