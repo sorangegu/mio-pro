@@ -7,23 +7,20 @@ on:
 jobs:
   sync_with_upstream:
     runs-on: ubuntu-latest
-    name: Auto Checkin for Traffic
+    name: auto checkin for traffic
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: master
 
-      - name: Setup Python
+      - name: Checkin
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
           architecture: "x64"
+      - run: python ./.github/actions/checkin/universal.py
 
-      - name: Run Checkin Script
-        run: |
-          python ./.github/actions/checkin/universal.py || echo "Checkin script failed"
-
-      - name: Record Timestamp
-        run: date "+%Y-%m-%d %H:%M:%S"
+      - name: Timestamp
+        run: date
